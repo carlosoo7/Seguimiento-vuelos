@@ -1,0 +1,65 @@
+# Versión Ibagué: vuelos que salen del aeropuerto Perales (IBE).
+#
+# Uso:  python main.py --config config-ibague.yaml scan
+#       python main.py --config config-ibague.yaml deals
+#
+# Desde Ibagué solo hay vuelos directos regulares a Bogotá y Medellín (y algún
+# estacional). Los demás destinos saldrán con escala (normalmente vía BOG),
+# y el precio que se guarda es el del itinerario completo desde IBE.
+
+currency: COP
+db_path: vuelos-ibague.db   # base de datos separada para no mezclar históricos
+provider: auto
+
+scan:
+  months_ahead: 3
+  one_way: true
+  pause_seconds: 0.4
+
+origins:
+  - IBE   # Ibagué (Perales)
+
+destinations:
+  nacionales:
+    - BOG   # Bogotá        (directo)
+    - MDE   # Medellín      (directo)
+    - CTG   # Cartagena
+    - SMR   # Santa Marta
+    - CLO   # Cali
+    - BAQ   # Barranquilla
+    - ADZ   # San Andrés
+    - PEI   # Pereira
+    - BGA   # Bucaramanga
+    - CUC   # Cúcuta
+    - MTR   # Montería
+    - LET   # Leticia
+  internacionales:
+    - MIA   # Miami
+    - FLL   # Fort Lauderdale
+    - MCO   # Orlando
+    - JFK   # Nueva York
+    - MEX   # Ciudad de México
+    - CUN   # Cancún
+    - PTY   # Panamá
+    - SJO   # San José (CR)
+    - LIM   # Lima
+    - UIO   # Quito
+    - SCL   # Santiago
+    - EZE   # Buenos Aires
+    - GRU   # São Paulo
+    - MAD   # Madrid
+    - BCN   # Barcelona
+    - PUJ   # Punta Cana
+
+deals:
+  ratio: 0.5
+  min_observations: 10
+  lookback_days: 90
+  absolute_caps:
+    # Desde Ibagué casi todo lleva escala, así que los topes son algo más altos
+    # que en la versión general.
+    nacional: 120000
+    internacional: 550000
+
+notify:
+  telegram: false

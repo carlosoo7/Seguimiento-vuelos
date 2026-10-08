@@ -1,0 +1,62 @@
+# Configuración del rastreador de vuelos baratos.
+# Códigos IATA. Puedes añadir o quitar rutas libremente.
+
+currency: COP
+db_path: vuelos.db       # base de datos SQLite (relativa a la carpeta del proyecto)
+# Proveedor de datos: auto | travelpayouts | amadeus | mock
+#  - auto: usa el primero que tenga credenciales en .env; si no hay ninguna, usa mock.
+provider: auto
+
+scan:
+  months_ahead: 3        # cuántos meses hacia adelante escanear (incluye el mes actual)
+  one_way: true          # solo ida (true) o ida y vuelta (false)
+  pause_seconds: 0.4     # pausa entre llamadas al API para no saturar
+
+origins:
+  - BOG   # Bogotá
+  - MDE   # Medellín
+  - CLO   # Cali
+
+destinations:
+  nacionales:
+    - MDE   # Medellín
+    - CTG   # Cartagena
+    - SMR   # Santa Marta
+    - CLO   # Cali
+    - BAQ   # Barranquilla
+    - ADZ   # San Andrés
+    - PEI   # Pereira
+    - BGA   # Bucaramanga
+    - CUC   # Cúcuta
+    - MTR   # Montería
+    - LET   # Leticia
+    - BOG   # Bogotá
+  internacionales:
+    - MIA   # Miami
+    - FLL   # Fort Lauderdale
+    - MCO   # Orlando
+    - JFK   # Nueva York
+    - MEX   # Ciudad de México
+    - CUN   # Cancún
+    - PTY   # Panamá
+    - SJO   # San José (CR)
+    - LIM   # Lima
+    - UIO   # Quito
+    - SCL   # Santiago
+    - EZE   # Buenos Aires
+    - GRU   # São Paulo
+    - MAD   # Madrid
+    - BCN   # Barcelona
+    - PUJ   # Punta Cana
+
+deals:
+  # Un precio es "chollo" si cumple CUALQUIERA de estas condiciones:
+  ratio: 0.5             # precio <= 50 % de la mediana histórica de la ruta
+  min_observations: 10   # la mediana solo se considera fiable con al menos N observaciones
+  lookback_days: 90      # ventana de histórico para calcular la mediana
+  absolute_caps:         # o precio por debajo de este tope (en la moneda de arriba)
+    nacional: 90000
+    internacional: 450000
+
+notify:
+  telegram: false        # true para enviar avisos por Telegram (ver .env)
